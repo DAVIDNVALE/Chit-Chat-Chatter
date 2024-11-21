@@ -8,15 +8,25 @@ const Chat = (props) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
+        
         socket.on('users_in_chat', (data) => {
             console.log(data);
             setUsers(data);
         });
+
+        
         socket.on('messages', (data) => {
             setMessages(data);
         });
+
+       
+        return () => {
+            socket.off('users_in_chat');
+            socket.off('messages');
+        };
     }, [socket]);
 
+   
     const submitHandler = (e) => {
         e.preventDefault();
         socket.emit('new_message', message);
@@ -31,7 +41,7 @@ const Chat = (props) => {
                         <div className="card-body bg-light">
                             <h1 className="card-title text-center text-primary mb-4">Chat Room</h1>
 
-                            {/* Users List */}
+                            
                             <div className="mb-4">
                                 <h4 className="text-success">Users in Chat</h4>
                                 <ul className="list-group">
@@ -43,19 +53,22 @@ const Chat = (props) => {
                                 </ul>
                             </div>
 
-                            {/* Messages List */}
+                            
                             <div className="mb-4">
                                 <h4 className="text-info">Messages</h4>
                                 <div className="list-group">
-                                    {messages.map((msg, index) => (
-                                        <div key={index} className="list-group-item list-group-item-light">
-                                            <strong>User:</strong> {msg}
-                                        </div>
-                                    ))}
+                                    {messages.map((msg, index) => {
+                                        const user = users[index] || "Unknown User"; 
+                                        return (
+                                            <div key={index} className="list-group-item list-group-item-light">
+                                                <strong>{user}</strong>: {msg}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
-                            {/* Message Input Form */}
+                            
                             <form onSubmit={submitHandler}>
                                 <div className="mb-3">
                                     <label htmlFor="message" className="form-label text-secondary">Message</label>
@@ -81,4 +94,5 @@ const Chat = (props) => {
 };
 
 export default Chat;
+
 
