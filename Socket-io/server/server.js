@@ -3,14 +3,15 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import dbConnect from './config/mongoose.config.js'
 import userRoutes from './routes/user.routes.js'
+import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 
 
 const PORT = process.env.PORT | 8000
 const app = express();
 
-app.use(cors());
-app.use(express.json())
+app.use(cookieParser(process.env.SECRET_KEY))
+app.use(express.json(), cors(), cors({origin: 'http://localhost:5173', credntials: true}));
 app.use('/api', userRoutes)
 
 dotenv.config()

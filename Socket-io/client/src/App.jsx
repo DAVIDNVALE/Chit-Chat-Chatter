@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import UserForm from './components/UserForm';
 import Chat from './components/Chat';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import Login from './components/Login';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
     <>
 <h1 className="text-center text-primary mb-4">CHIT CHAT CHATTER</h1>
     <Routes>
+      {/* <Route path='/' element={<Login/>} /> */}
       <Route path='/' element={<UserForm socket={socket} />} />
       <Route path='/chat' element={<Chat socket={socket} />} />
     </Routes>

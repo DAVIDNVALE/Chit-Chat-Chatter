@@ -44,7 +44,6 @@ UserSchema.virtual('confirmPassword')
       });
 
 
-    //   const bcrypt = require('bcrypt');
 
 UserSchema.pre('save', function (next) {
   bcrypt.hash(this.password, 10)
